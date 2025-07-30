@@ -1,4 +1,4 @@
-import { TopMenu } from "@/components";
+import { TopMenu, SideBard } from "@/components";
 
 export default function ShopLayout({
   children
@@ -8,6 +8,8 @@ export default function ShopLayout({
   return (
     <main className="flex flex-col min-h-screen px-0 sm:px-10">
       <TopMenu />
+      <SideBard />
+      
       {children}
     </main>
   );
