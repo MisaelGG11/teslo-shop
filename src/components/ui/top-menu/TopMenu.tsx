@@ -1,4 +1,7 @@
+'use client';
+
 import { titleFont } from "@/config/fonts";
+import { useUIStore } from "@/store/ui/ui-store";
 import Link from "next/link";
 import { IoCartOutline, IoSearchOutline } from "react-icons/io5";
 
@@ -9,6 +12,9 @@ const categories = [
 ];
 
 export const TopMenu = () => {
+
+  const toggleSidebar = useUIStore((state) => state.toggleSidebar);
+
   return (
     <nav className="flex px-5 justify-between items-center w-full">
       {/* Logo */}
@@ -16,9 +22,9 @@ export const TopMenu = () => {
       <div>
         <Link href="/" className="text-base md:text-lg">
           <span className={`${titleFont.className} antialiased font-bold`}>
-            Teslo |
+            Teslo&nbsp;
           </span>
-          <span className=""> Shop</span>
+          <span className="">| Shop</span>
         </Link>
       </div>
 
@@ -52,8 +58,9 @@ export const TopMenu = () => {
         </Link>
 
         <button
-          // onClick={ openSideMenu }
-          className="m-2 p-2 rounded-md transition-all hover:bg-gray-100">
+          onClick={toggleSidebar}
+          className="m-2 p-2 rounded-md transition-all hover:bg-gray-100"
+        >
           Menú
         </button>
 
