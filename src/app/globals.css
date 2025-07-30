@@ -49,7 +49,7 @@ body {
 
 
 .btn-primary {
-  @apply bg-blue-600 hover:bg-blue-800 text-white py-2 px-4 rounded transition-all;
+  @apply bg-slate-800 hover:bg-slate-900 text-white py-2 px-4 rounded transition-all text-sm;
 }
 
 .btn-secondary {
