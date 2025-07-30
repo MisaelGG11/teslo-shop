@@ -1,22 +1,42 @@
+import { ProductGrid, Title } from "@/components";
 import { notFound } from "next/navigation";
 
+import { Category, Product } from "@/interfaces";
+import { initialData } from "@/seed/seed";
+import { titleFont } from "@/config/fonts";
+
+const products: Product[] = initialData.products;
+
 interface Props {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: Category }>;
 }
 
 export default async function CategoryPage({ params }: Props) {
   const { id } = await params;
 
-  const validCategories = [ 'men', 'women', 'children' ];
-
-  if (!validCategories.includes(id)) {
-    return notFound();
+  const validCategories: Record<Category, string> = {
+    men: "Men's Clothing",
+    women: "Women's Clothing",
+    kid: "Kids' Clothing",
+    unisex: "Unisex Clothing",
   }
 
+  if (!Object.keys(validCategories).includes(id)) {
+    return notFound();
+  }
+  
+  const categoryProducts = products.filter(product => product.gender === id);
+
   return (
-    <main className="p-4">
-      <h1 className="text-2xl font-bold">Category: {id}</h1>
-      <p>Displaying products for category {id}</p>
-    </main>
+        <>
+          <main className={`${titleFont.className} font-bold`}>
+            <Title
+              title={ validCategories[id] }
+              className="mb-10 capitalize"
+            />
+
+            <ProductGrid products={categoryProducts} />
+          </main>
+        </>
   );
 }
