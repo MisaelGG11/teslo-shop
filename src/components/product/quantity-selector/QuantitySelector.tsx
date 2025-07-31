@@ -19,16 +19,18 @@ export const QuantitySelector = ( { quantity }: Props ) => {
   };
   return (
     <div className="flex">
-      <button onClick={ () => onQuantityChanged( -1 ) }>
-        <IoRemoveCircleOutline size={ 30 } />
+      <button className='-mr-4 bg-gray-100 rounded-full' onClick={ () => onQuantityChanged( -1 ) }>
+        <IoRemoveCircleOutline size={ 30 } className={ count === 1 ? 'text-gray-300' : ''} />
       </button>
 
-      <span className="w-20 mx-3 px-5 bg-gray-100 text-center rounded">
+      <span className="w-20 px-5 py-1 bg-gray-200 text-center rounded -z-1">
         { count }
       </span>
 
-      <button onClick={ () => onQuantityChanged( +1 ) }>
-        <IoAddCircleOutline size={ 30 } />
+      <button
+      className='-ml-4 bg-gray-100 rounded-full'
+      onClick={ () => onQuantityChanged( +1 ) } disabled={ count <= 0 || count >= 5 }>
+        <IoAddCircleOutline size={ 30 } className={ count === 5 ? 'text-gray-300' : ''} />
       </button>
 
     </div>
