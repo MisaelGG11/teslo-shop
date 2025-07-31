@@ -8,7 +8,7 @@ const products: Product[] = initialData.products;
 export default function Home() {
   return (
     <>
-      <main className={`${titleFont.className} font-bold`}>
+      <main className={`${titleFont.className} font-bold px-5 md:px-0`}>
         <Title
           title="Welcome to the Shop"
           subTitle="Find the best products here."

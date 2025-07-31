@@ -29,7 +29,7 @@ export default async function CategoryPage({ params }: Props) {
 
   return (
         <>
-          <main className={`${titleFont.className} font-bold`}>
+          <main className={`${titleFont.className} font-bold px-5 md:px-0`}>
             <Title
               title={ validCategories[id] }
               className="mb-10 capitalize"
