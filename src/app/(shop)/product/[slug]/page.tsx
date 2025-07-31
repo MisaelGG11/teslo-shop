@@ -2,7 +2,7 @@ import { titleFont } from "@/config/fonts";
 import { Product } from "@/interfaces";
 import { initialData } from "@/seed/seed";
 import { notFound } from "next/navigation";
-import { SizeSelector, QuantitySelector } from "@/components";
+import { SizeSelector, QuantitySelector, Slideshow } from "@/components";
 
 const products: Product[] = initialData.products;
 
@@ -23,6 +23,11 @@ export default async function ProductPage({ params }: Props) {
     <main className="mt-5 mb-20 grid grid-cols-1 md:grid-cols-3 gap-3">
       {/* Slideshow */}
       <div className="col-span-1 md:col-span-2 ">
+        <Slideshow 
+          images={product.images}
+          title={product.title}
+          className="h-full"
+        />
       </div>
 
       {/* Detalles */}
