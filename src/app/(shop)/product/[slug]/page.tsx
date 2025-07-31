@@ -2,6 +2,7 @@ import { titleFont } from "@/config/fonts";
 import { Product } from "@/interfaces";
 import { initialData } from "@/seed/seed";
 import { notFound } from "next/navigation";
+import { SizeSelector, QuantitySelector } from "@/components";
 
 const products: Product[] = initialData.products;
 
@@ -32,9 +33,10 @@ export default async function ProductPage({ params }: Props) {
         <p className="text-lg mb-5">${product.price.toFixed(2)}</p>
 
         {/* Selector de Tallas */}
-
+        <SizeSelector availableSizes={product.sizes} selectedSize={product.sizes[0]} />
 
         {/* Selector de Cantidad */}
+        <QuantitySelector quantity={2} />
 
 
         {/* Button */}
