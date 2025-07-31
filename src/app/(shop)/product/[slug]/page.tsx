@@ -2,7 +2,7 @@ import { titleFont } from "@/config/fonts";
 import { Product } from "@/interfaces";
 import { initialData } from "@/seed/seed";
 import { notFound } from "next/navigation";
-import { SizeSelector, QuantitySelector, Slideshow } from "@/components";
+import { SizeSelector, QuantitySelector, Slideshow, MobileSlideshow } from "@/components";
 
 const products: Product[] = initialData.products;
 
@@ -26,7 +26,13 @@ export default async function ProductPage({ params }: Props) {
         <Slideshow 
           images={product.images}
           title={product.title}
-          className="h-full"
+          className="hidden md:block"
+        />
+
+        <MobileSlideshow
+          images={product.images}
+          title={product.title}
+          className="block md:hidden"
         />
       </div>
 
