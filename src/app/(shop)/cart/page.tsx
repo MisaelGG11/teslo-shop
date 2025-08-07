@@ -3,6 +3,7 @@ import { initialData } from "@/seed/seed";
 import Image from "next/image";
 import Link from "next/link";
 import { QuantitySelector } from "@/components";
+import { redirect } from "next/navigation";
 
 const productsInCart = [
   initialData.products[0],
@@ -12,6 +13,11 @@ const productsInCart = [
 ]; // This would be replaced with actual cart data
 
 export default async function CartPage() {
+
+  if(productsInCart.length === 0) {
+    redirect("/empty");
+  }
+
   return (
     <main className="flex justify-center items-center mb-72 px-6 sm:px-0">
       <section className="flex flex-col w-[1000px]">
