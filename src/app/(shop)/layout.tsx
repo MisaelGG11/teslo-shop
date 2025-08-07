@@ -1,4 +1,5 @@
 import { TopMenu, SideBard } from "@/components";
+import { Footer } from "@/components";
 
 export default function ShopLayout({
   children
@@ -11,6 +12,8 @@ export default function ShopLayout({
       <SideBard />
       
       {children}
+
+      <Footer />
     </main>
   );
 }
