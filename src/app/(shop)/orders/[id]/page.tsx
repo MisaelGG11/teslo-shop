@@ -86,12 +86,6 @@ export default async function OrderPage({ params }: Props) {
                 <div>México</div>
                 <div>Tel: +52 55 1234 5678</div>
               </div>
-              <Link
-                href="/checkout/address"
-                className="text-blue-600 underline text-xs mt-1 inline-block"
-              >
-                Editar dirección
-              </Link>
             </div>
 
             <h2 className="text-lg font-semibold">Artículos del carrito</h2>
