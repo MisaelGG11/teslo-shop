@@ -1,5 +1,5 @@
 import { getPaginatedProductsWithImages } from "@/actions";
-import { Title, ProductGrid } from "@/components";
+import { Title, ProductGrid, Pagination } from "@/components";
 import { titleFont } from "@/config/fonts";
 import { Gender } from "@/generated/prisma";
 import { redirect } from "next/navigation";
@@ -36,6 +36,11 @@ export default async function Home({ searchParams }: Props) {
         />
 
         <ProductGrid products={products} />
+
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+        />
       </main>
     </>
   );
