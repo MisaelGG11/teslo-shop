@@ -1,3 +1,5 @@
+export const revalidate = 60; // Revalidate every 60 seconds
+
 import { Pagination, ProductGrid, Title } from "@/components";
 import { notFound } from "next/navigation";
 

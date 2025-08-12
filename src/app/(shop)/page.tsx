@@ -1,3 +1,5 @@
+export const revalidate = 60; // Revalidate every 60 seconds
+
 import { getPaginatedProductsWithImages } from "@/actions";
 import { Title, ProductGrid, Pagination } from "@/components";
 import { titleFont } from "@/config/fonts";
