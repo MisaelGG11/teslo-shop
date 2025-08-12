@@ -1,13 +1,14 @@
 export const revalidate = 60; // Revalidate every 60 seconds
 
-import { getPaginatedProductsWithImages } from "@/actions";
-import { Title, ProductGrid, Pagination } from "@/components";
-import { titleFont } from "@/config/fonts";
-import { Gender } from "@/generated/prisma";
 import { redirect } from "next/navigation";
 
+import { titleFont } from "@/config/fonts";
+import { Title, ProductGrid, Pagination } from "@/components";
+
+import { getPaginatedProductsWithImages } from "@/actions";
+
 interface Props {
-  searchParams: Promise<{ page?: string, take?: string, gender?: string }>;
+  searchParams: Promise<{ page?: string, take?: string }>;
 }
 
 export default async function Home({ searchParams }: Props) {
@@ -18,11 +19,7 @@ export default async function Home({ searchParams }: Props) {
   const { products, totalPages, currentPage } = await getPaginatedProductsWithImages({
     page,
     take,
-    gender: params.gender as Gender,
   });
-
-  console.log("Current Page:", currentPage);
-  console.log("Total Pages:", totalPages);
 
   if(products.length === 0) {
     redirect('/');

@@ -1,10 +1,12 @@
 export const revalidate = 60; // Revalidate every 60 seconds
 
-import { Pagination, ProductGrid, Title } from "@/components";
 import { notFound } from "next/navigation";
 
-import { titleFont } from "@/config/fonts";
 import { Gender } from "@/generated/prisma";
+
+import { titleFont } from "@/config/fonts";
+import { Pagination, ProductGrid, Title } from "@/components";
+
 import { getPaginatedProductsWithImages } from "@/actions";
 
 interface Props {

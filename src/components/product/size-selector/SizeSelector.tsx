@@ -6,7 +6,7 @@ interface Props {
   onSizeChange?: (size: Size) => void;
 }
 
-export const SizeSelector = ({ selectedSize, availableSizes, onSizeChange }: Props) => {
+export const SizeSelector = ({ selectedSize, availableSizes }: Props) => {
   return (
     <div className="my-4">
       <h3 className="text-sm font-medium mb-2">Tallas disponibles:</h3>

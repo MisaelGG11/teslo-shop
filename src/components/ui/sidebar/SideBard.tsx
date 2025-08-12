@@ -70,7 +70,7 @@ export const SideBard = () => {
 
         {/* Menú */}
 
-        {sideBardItems.map((item, index) => (
+        {sideBardItems.map((item) => (
           <Link
             key={item.name}
             href={item.path}
