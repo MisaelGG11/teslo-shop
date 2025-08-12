@@ -1,19 +1,35 @@
+export const revalidate = 86100; // 7 days
+
 import { titleFont } from "@/config/fonts";
-import { Product } from "@/interfaces";
-import { initialData } from "@/seed/seed";
 import { notFound } from "next/navigation";
 import { SizeSelector, QuantitySelector, Slideshow, MobileSlideshow } from "@/components";
-
-const products: Product[] = initialData.products;
+import { getProductBySlug } from "@/actions";
+import { StockLabel } from "@/components/product/stock-label/StockLabel";
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
+export const generateMetadata = async ({ params }: Props) => {
+  const { slug } = await params;
+  const product = await getProductBySlug(slug);
+  return {
+    title: product.title ? `${product.title}` : "Producto no encontrado",
+    description: product.description,
+    openGraph: {
+      title: product.title,
+      description: product.description,
+      images: [
+        `/products/${product.images[0]}`
+      ]
+    },
+  };
+};
+
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
 
-  const product = products.find((prod) => prod.slug === slug);
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     return notFound();
@@ -38,6 +54,10 @@ export default async function ProductPage({ params }: Props) {
 
       {/* Detalles */}
       <div className="col-span-1 px-5">
+        {/* Stock Label */}
+        <div className="mb-3">
+          <StockLabel slug={slug} />
+        </div>
         <h1 className={` ${titleFont.className} antialiased font-bold text-xl`}>
           {product.title}
         </h1>
