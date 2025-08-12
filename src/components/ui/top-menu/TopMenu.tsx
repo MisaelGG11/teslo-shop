@@ -6,9 +6,9 @@ import Link from "next/link";
 import { IoCartOutline, IoSearchOutline } from "react-icons/io5";
 
 const categories = [
-  { name: "Hombres", path: "/category/men" },
-  { name: "Mujeres", path: "/category/women" },
-  { name: "Niños", path: "/category/kid" },
+  { name: "Hombres", path: "/gender/men" },
+  { name: "Mujeres", path: "/gender/women" },
+  { name: "Niños", path: "/gender/kid" },
 ];
 
 export const TopMenu = () => {

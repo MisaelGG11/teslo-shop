@@ -1,11 +1,30 @@
-import { Title, ProductGrid } from "@/components";
+export const revalidate = 60; // Revalidate every 60 seconds
+
+import { redirect } from "next/navigation";
+
 import { titleFont } from "@/config/fonts";
-import { Product } from "@/interfaces";
-import { initialData } from "@/seed/seed";
+import { Title, ProductGrid, Pagination } from "@/components";
 
-const products: Product[] = initialData.products;
+import { getPaginatedProductsWithImages } from "@/actions";
 
-export default function Home() {
+interface Props {
+  searchParams: Promise<{ page?: string, take?: string }>;
+}
+
+export default async function Home({ searchParams }: Props) {
+  const params = await searchParams;
+  const page = params.page ? parseInt(params.page) : 1;
+  const take = params.take ? parseInt(params.take) : 12;
+
+  const { products, totalPages, currentPage } = await getPaginatedProductsWithImages({
+    page,
+    take,
+  });
+
+  if(products.length === 0) {
+    redirect('/');
+  }
+
   return (
     <>
       <main className={`${titleFont.className} font-bold px-5 md:px-0`}>
@@ -16,6 +35,11 @@ export default function Home() {
         />
 
         <ProductGrid products={products} />
+
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+        />
       </main>
     </>
   );
