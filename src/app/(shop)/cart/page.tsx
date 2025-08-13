@@ -1,22 +1,14 @@
 import { Title } from "@/components";
 import { initialData } from "@/seed/seed";
-import Image from "next/image";
 import Link from "next/link";
-import { QuantitySelector } from "@/components";
 import { redirect } from "next/navigation";
-
-const productsInCart = [
-  initialData.products[0],
-  initialData.products[1],
-  initialData.products[2],
-  // Add more products as needed
-]; // This would be replaced with actual cart data
+import { ProductsInCart } from "./UI/ProductsInCart";
 
 export default async function CartPage() {
 
-  if(productsInCart.length === 0) {
-    redirect("/empty");
-  }
+  // if(productsInCart.length === 0) {
+  //   redirect("/empty");
+  // }
 
   return (
     <main className="flex justify-center items-center mb-72 px-6 sm:px-0">
@@ -36,39 +28,19 @@ export default async function CartPage() {
               >
                 Ir a la tienda
               </Link>
-
+{/* 
               <span className="text-sm font-bold">
                 {productsInCart.length} item
                 {productsInCart.length === 1 ? "" : "s"}
-              </span>
+              </span> */}
             </div>
 
             {/*  Cart items */}
-            {productsInCart.map((product) => (
-              <div
-                key={product.slug}
-                className="flex items-center gap-4 p-4 border-b border-gray-300"
-              >
-                <Image
-                  src={"/products/" + product.images[0]}
-                  alt={product.title}
-                  width={100}
-                  height={100}
-                  className="w-20 h-20 object-cover"
-                />
-                <div className="flex flex-col w-full">
-                  <h2 className="">{product.title}</h2>
-                  <span className="font-bold">${product.price.toFixed(2)}</span>
-                  <div className="flex">
-                    <QuantitySelector quantity={1} />
-                  </div>
-                </div>
-              </div>
-            ))}
+            <ProductsInCart />
           </div>
 
           {/* Cart summary - Checkout */}
-          <div className="flex flex-col bg-white shadow-lg p-5 rounded-lg">
+          {/* <div className="flex flex-col bg-white shadow-lg p-5 rounded-lg">
             <h2 className="text-xl font-bold">Resumen del carrito</h2>
             <span className="text-sm text-gray-500">
               {productsInCart.length} item
@@ -118,7 +90,7 @@ export default async function CartPage() {
               Checkout
             </Link>
             <button className="btn-secondary mt-4">Vaciar carrito</button>
-          </div>
+          </div> */}
         </div>
       </section>
     </main>
