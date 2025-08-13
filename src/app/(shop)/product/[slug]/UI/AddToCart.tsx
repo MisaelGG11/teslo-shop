@@ -1,14 +1,17 @@
 "use client";
 
 import { QuantitySelector, SizeSelector } from "@/components";
-import { Size } from "@/interfaces";
+import { Product, CartProduct, Size } from "@/interfaces";
+import { useCartStore } from "@/store";
 import { useState } from "react";
 
 interface Props {
-  sizes : Size[];
+  product: Product;
 }
 
-export const AddToCart = ({ sizes }: Props) => {
+export const AddToCart = ({ product }: Props) => {
+
+  const addProductToCart = useCartStore((state) => state.addToCart);
 
   const [size, setSize] = useState<Size | null>(null);
   const [quantity, setQuantity] = useState(1);
@@ -18,10 +21,23 @@ export const AddToCart = ({ sizes }: Props) => {
   const addItemToCart = () => {
     setPosted(true);
 
-    console.log("Producto agregado al carrito", {
+    if (!size) return;
+
+    const cartProduct: CartProduct = {
+      id: product.id,
+      slug: product.slug,
+      title: product.title,
+      price: product.price,
       size,
-      quantity
-    });
+      quantity,
+      image: product.images[0],
+    };
+
+    addProductToCart(cartProduct);
+
+    setPosted(false);
+    setSize(null);
+    setQuantity(1);
   }
 
 
@@ -37,7 +53,7 @@ export const AddToCart = ({ sizes }: Props) => {
 
       {/* Selector de Tallas */}
         <SizeSelector 
-          availableSizes={sizes}
+          availableSizes={product.sizes}
           selectedSize={size} 
           onSizeChange={setSize}
         />
