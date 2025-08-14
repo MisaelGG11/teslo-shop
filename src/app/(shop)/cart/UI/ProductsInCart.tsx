@@ -13,6 +13,7 @@ import { IoSyncCircleOutline } from "react-icons/io5";
 export const ProductsInCart = () => {
   const productsInCart = useCartStore((state) => state.cart);
   const updateQuantity = useCartStore((state) => state.updateProductQuantity);
+  const removeFromCart = useCartStore((state) => state.removeFromCart);
 
   const [loaded, setLoaded] = useState(false);
 
@@ -45,7 +46,7 @@ export const ProductsInCart = () => {
           />
           <div className="flex flex-col w-full">
             <Link
-              href={`/products/${product.slug}`}
+              href={`/product/${product.slug}`}
               className="cursor-pointer hover:underline"
             >
               <h2 className="">{product.title}</h2>
@@ -63,6 +64,7 @@ export const ProductsInCart = () => {
                 onQuantityChange={(quantity) =>
                   updateQuantity(product, quantity)
                 }
+                onRemove={() => removeFromCart(product)}
               />
             </div>
           </div>

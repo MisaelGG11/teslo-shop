@@ -6,15 +6,18 @@ interface Props {
   quantity: number;
 
   onQuantityChange: (newQuantity: number) => void;
+
+  onRemove?: () => void;
 }
 
-export const QuantitySelector = ({ quantity, onQuantityChange }: Props) => {
+export const QuantitySelector = ({ quantity, onQuantityChange, onRemove }: Props) => {
 
   const handleQuantityChange = (value: number) => {
     if (quantity + value < 1) return;
 
     onQuantityChange(quantity + value);
   };
+
   return (
     <div className="flex items-center justify-between w-full">
       <div className="flex">
@@ -43,10 +46,14 @@ export const QuantitySelector = ({ quantity, onQuantityChange }: Props) => {
           />
         </button>
       </div>
-
-      <button className="hover:bg-gray-300 rounded-full transition-all duration-300 p-2">
-        <IoTrashOutline size={20} />
-      </button>
+      {onRemove && (
+        <button
+          className="hover:bg-gray-300 rounded-full transition-all duration-300 p-2"
+          onClick={onRemove}
+        >
+          <IoTrashOutline size={20} />
+        </button>
+      )}
     </div>
   );
 };
