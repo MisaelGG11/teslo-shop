@@ -37,7 +37,7 @@ export default async function EmptyPage() {
         </Link>
 
         <Link
-          href="/category/kid"
+          href="/gender/kid"
           className="btn-secondary flex items-center"
         >
           Browse Categories

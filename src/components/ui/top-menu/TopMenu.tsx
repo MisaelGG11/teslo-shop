@@ -2,7 +2,9 @@
 
 import { titleFont } from "@/config/fonts";
 import { useUIStore, useCartStore } from "@/store";
+import clsx from "clsx";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoCartOutline, IoSearchOutline } from "react-icons/io5";
 
@@ -15,6 +17,8 @@ const categories = [
 export const TopMenu = () => {
   const toggleSidebar = useUIStore((state) => state.toggleSidebar);
   const totalItemsInCart = useCartStore((state) => state.getTotalItems());
+
+  const pathname = usePathname();
 
   const [loaded, setLoaded] = useState(false);
 
@@ -41,7 +45,9 @@ export const TopMenu = () => {
           <Link
             key={category.name}
             href={category.path}
-            className="p-2 transition ease-in-out duration-300 hover:bg-gray-100 rounded-md"
+            className={clsx("px-3 py-0.5 transition ease-in-out duration-300 hover:bg-gray-100 rounded-full", {
+              "bg-gray-500 text-white": pathname === category.path,
+            })}
           >
             {category.name}
           </Link>
@@ -54,9 +60,11 @@ export const TopMenu = () => {
           <IoSearchOutline className="w-5 h-5" />
         </Link>
 
-        <Link href="/cart" className="mx-2">
+        <Link href={
+          ((totalItemsInCart === 0 && loaded) ? "/empty" : "/cart")
+        } className="mx-2">
           <div className="relative">
-            {loaded && (
+            {(loaded && totalItemsInCart > 0) && (
               <span className="absolute text-xs px-1 rounded-full font-bold -top-2 -right-2 bg-blue-700 text-white">
                 {totalItemsInCart}
               </span>

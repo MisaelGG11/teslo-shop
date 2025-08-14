@@ -10,11 +10,18 @@ import { QuantitySelector } from "@/components";
 
 import { IoSyncCircleOutline } from "react-icons/io5";
 import { currencyFormat } from "@/utils";
+import { redirect } from "next/navigation";
 
 export const OrderSummary = () => {
   const productsInCart = useCartStore((state) => state.cart);
   const totalItems = useCartStore((state) => state.getTotalItems());
   const clearCart = useCartStore((state) => state.clearCart);
+
+  const handleClearCart = () => {
+    clearCart();
+
+    redirect("/empty");
+  }
 
   const [loaded, setLoaded] = useState(false);
 
@@ -93,7 +100,7 @@ export const OrderSummary = () => {
       <Link href="/checkout/address" className="btn-primary mt-2 text-center">
         Checkout
       </Link>
-      <button className="btn-secondary mt-4" onClick={clearCart}>
+      <button className="btn-secondary mt-4" onClick={handleClearCart}>
         Vaciar carrito
       </button>
     </div>

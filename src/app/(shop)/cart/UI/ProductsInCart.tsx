@@ -9,6 +9,7 @@ import { useCartStore } from "@/store";
 import { QuantitySelector } from "@/components";
 
 import { IoSyncCircleOutline } from "react-icons/io5";
+import { redirect } from "next/navigation";
 
 export const ProductsInCart = () => {
   const productsInCart = useCartStore((state) => state.cart);
@@ -21,6 +22,10 @@ export const ProductsInCart = () => {
   useEffect(() => {
     setLoaded(true);
   });
+
+  if (productsInCart.length === 0) {
+    redirect("/empty");
+  }
 
   if (!loaded)
     return (
