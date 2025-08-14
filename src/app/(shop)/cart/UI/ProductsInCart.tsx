@@ -14,6 +14,7 @@ export const ProductsInCart = () => {
   const productsInCart = useCartStore((state) => state.cart);
   const updateQuantity = useCartStore((state) => state.updateProductQuantity);
   const removeFromCart = useCartStore((state) => state.removeFromCart);
+  const totalItems = useCartStore((state) => state.getTotalItems());
 
   const [loaded, setLoaded] = useState(false);
 
@@ -32,6 +33,19 @@ export const ProductsInCart = () => {
 
   return (
     <>
+      <div className="flex items-center justify-between">
+        <Link
+          href="/"
+          className="hover:text-blue-700 underline transition-all duration-300 "
+        >
+          Ir a la tienda
+        </Link>
+        
+        <span className="text-sm font-bold">
+          {totalItems} item
+          {totalItems === 1 ? "" : "s"}
+        </span>
+      </div>
       {productsInCart.map((product) => (
         <div
           key={product.slug + "_" + product.size}
