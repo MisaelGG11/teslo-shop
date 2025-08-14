@@ -14,7 +14,7 @@ const categories = [
 
 export const TopMenu = () => {
   const toggleSidebar = useUIStore((state) => state.toggleSidebar);
-  const totalItemsInCart = useCartStore((state) => state.getTotalItems);
+  const totalItemsInCart = useCartStore((state) => state.getTotalItems());
 
   const [loaded, setLoaded] = useState(false);
 
@@ -58,7 +58,7 @@ export const TopMenu = () => {
           <div className="relative">
             {loaded && (
               <span className="absolute text-xs px-1 rounded-full font-bold -top-2 -right-2 bg-blue-700 text-white">
-                {totalItemsInCart()}
+                {totalItemsInCart}
               </span>
             )}
             <IoCartOutline className="w-5 h-5" />
