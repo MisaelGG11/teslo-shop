@@ -6,10 +6,11 @@ import { useSearchParams } from "next/navigation";
 import { useActionState } from "react";
 
 import { authenticate } from "@/actions";
+import clsx from "clsx";
 
 export const LoginForm = () => {
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
   const [errorMessage, formAction, isPending] = useActionState(
     authenticate,
     undefined
@@ -34,8 +35,13 @@ export const LoginForm = () => {
       />
 
       <input type="hidden" name="redirectTo" value={callbackUrl} />
-      <button type="submit" className="btn-primary" aria-disabled={isPending}>
-        Ingresar
+      <button type="submit" className={
+        clsx({
+          "btn-loading": isPending,
+          "btn-primary": !isPending
+        })
+      } disabled={isPending}>
+        {isPending ? "Cargando..." : "Ingresar"}
       </button>
 
       <div
