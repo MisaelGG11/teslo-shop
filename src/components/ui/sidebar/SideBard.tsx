@@ -1,8 +1,10 @@
 "use client";
 
+import { logout } from "@/actions";
 import { titleFont } from "@/config/fonts";
 import { useUIStore } from "@/store/ui/ui-store";
 import clsx from "clsx";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import {
   IoCloseOutline,
@@ -15,18 +17,25 @@ import {
   IoTicketOutline,
 } from "react-icons/io5";
 
-const sideBardItems = [
-  { name: "Perfil", icon: IoPersonOutline, path: "/" },
+const sideBardUserItems = [
+  { name: "Perfil", icon: IoPersonOutline, path: "/profile" },
   { name: "Ordenes", icon: IoTicketOutline, path: "/" },
-  { name: "Ingresar", icon: IoLogInOutline, path: "/" },
-  { name: "Salir", icon: IoLogOutOutline, path: "/" },
+];
+
+const sideBardAdminItems = [
   { name: "Productos", icon: IoShirtOutline, path: "/" },
+  { name: "Ordenes", icon: IoTicketOutline, path: "/" },
   { name: "Usuarios", icon: IoPeopleOutline, path: "/" },
 ];
 
 export const SideBard = () => {
   const isSideBarOpen = useUIStore((state) => state.isSidebarOpen);
   const toggleSidebar = useUIStore((state) => state.toggleSidebar);
+
+
+  const { data:session } = useSession();
+
+  const isAuthenticated = !!session?.user;
 
   return (
     <>
@@ -70,10 +79,51 @@ export const SideBard = () => {
 
         {/* Menú */}
 
-        {sideBardItems.map((item) => (
+        {sideBardUserItems.map((item) => (
           <Link
             key={item.name}
             href={item.path}
+            onClick={toggleSidebar}
+            className="flex items-center space-x-2 p-2 mt-8 rounded-md hover:bg-gray-100 transition-colors"
+          >
+            <item.icon size={22} />
+            <span className="text-">{item.name}</span>
+          </Link>
+        ))}
+
+        {
+          isAuthenticated && (
+            <button
+              onClick={() => {
+                toggleSidebar();
+                logout();
+              }}
+              className="flex w-full items-center space-x-2 p-2 mt-4 rounded-md hover:bg-gray-100 transition-colors"
+            >
+              <IoLogOutOutline size={22} />
+              <span className="text-">Salir</span>
+            </button>
+        )}
+
+        {!isAuthenticated && (
+          <Link
+            key="login"
+            href="/auth/login"
+            onClick={toggleSidebar}
+            className="flex items-center space-x-2 p-2 mt-4 rounded-md hover:bg-gray-100 transition-colors"
+          >
+            <IoLogInOutline size={22} />
+            <span className="text-">Ingresar</span>
+          </Link>
+        )}
+
+        <hr className="my-4 border-gray-300" />
+
+        {sideBardAdminItems.map((item) => (
+          <Link
+            key={item.name}
+            href={item.path}
+            onClick={toggleSidebar}
             className="flex items-center space-x-2 p-2 mt-4 rounded-md hover:bg-gray-100 transition-colors"
           >
             <item.icon size={22} />

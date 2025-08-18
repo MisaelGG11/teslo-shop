@@ -1,7 +1,8 @@
 import { titleFont } from "@/config/fonts";
-import Link from "next/link";
 
 import { LoginForm } from "./UI/LoginForm";
+import { auth } from "@/auth.config";
+import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "Login",
@@ -9,6 +10,11 @@ export const metadata = {
 };
 
 export default async function LoginPage() {
+
+  const session = await auth();
+
+  if (session?.user) redirect("/");
+
   return (
     <main className="flex flex-col min-h-screen justify-center">
       <h1 className={`${titleFont.className} text-4xl mb-5`}>Ingresar</h1>
