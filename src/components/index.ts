@@ -12,3 +12,6 @@ export * from './product/size-selector/SizeSelector';
 export * from './product/quantity-selector/QuantitySelector';
 export * from './product/slideshow/Slideshow';
 export * from './product/slideshow/MobileSlideshow';
+
+// Provider
+export * from "./providers/AuthProvider";
