@@ -2,17 +2,21 @@ import { initialData } from "./seed";
 import prisma from "../lib/prisma";
 
 export async function main() {
-
   if (process.env.NODE_ENV === "production") return;
 
   // 1. Borrar registros previos
   // await Promise.all( [
+  await prisma.user.deleteMany();
   await prisma.productImage.deleteMany();
   await prisma.product.deleteMany();
   await prisma.category.deleteMany();
   // ]);
 
-  const { categories, products } = initialData;
+  const { categories, products, users } = initialData;
+
+  await prisma.user.createMany({
+    data: users,
+  });
 
   //  Categorias
   // {
