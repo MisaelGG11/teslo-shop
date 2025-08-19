@@ -12,6 +12,18 @@ export const authConfig: NextAuthConfig = {
     signIn: "/auth/login",
     newUser: "/auth/new-account",
   },
+  callbacks: {
+    jwt({ token, user }) {
+      if (user) {
+        token.data = user;
+      }
+      return token;
+    },
+    session({ session, token }) {
+      session.user = token.data;
+      return session;
+    }
+  }
   // callbacks: {
   //   authorized({ auth, request: { nextUrl } }) {
   //     const isLoggedIn = !!auth?.user;
@@ -51,6 +63,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         }
 
         // User without password
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password: _, ...userWithoutPassword } = user;
 
         return userWithoutPassword;
