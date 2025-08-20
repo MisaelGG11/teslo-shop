@@ -1,11 +1,11 @@
 "use client";
 
-import { logout } from "@/actions";
 import { titleFont } from "@/config/fonts";
 import { useUIStore } from "@/store/ui/ui-store";
 import clsx from "clsx";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 import {
   IoCloseOutline,
   IoLogInOutline,
@@ -32,10 +32,23 @@ export const SideBard = () => {
   const isSideBarOpen = useUIStore((state) => state.isSidebarOpen);
   const toggleSidebar = useUIStore((state) => state.toggleSidebar);
 
-
-  const { data:session } = useSession();
+  const { data: session, update, status } = useSession();
 
   const isAuthenticated = !!session?.user;
+
+  const hasUpdatedSession = useRef(false);
+
+  useEffect(() => {
+    console.log("Session status:", status);
+    if (isSideBarOpen && !hasUpdatedSession.current) {
+      update();
+      hasUpdatedSession.current = true;
+      console.log("Session updated in sidebar");
+    }
+    if (!isSideBarOpen) {
+      hasUpdatedSession.current = false;
+    }
+  });
 
   return (
     <>
@@ -79,30 +92,35 @@ export const SideBard = () => {
 
         {/* Menú */}
 
-        {sideBardUserItems.map((item) => (
-          <Link
-            key={item.name}
-            href={item.path}
-            onClick={toggleSidebar}
-            className="flex items-center space-x-2 p-2 mt-8 rounded-md hover:bg-gray-100 transition-colors"
-          >
-            <item.icon size={22} />
-            <span className="text-">{item.name}</span>
-          </Link>
-        ))}
+        { status === 'loading' && (
+          <div className="flex justify-center items-center h-60">
+            <p>Cargando...</p>
+          </div>
+          )}
 
-        {
-          isAuthenticated && (
-            <button
-              onClick={() => {
-                toggleSidebar();
-                logout();
-              }}
-              className="flex w-full items-center space-x-2 p-2 mt-4 rounded-md hover:bg-gray-100 transition-colors"
+        {isAuthenticated &&
+          sideBardUserItems.map((item) => (
+            <Link
+              key={item.name}
+              href={item.path}
+              onClick={toggleSidebar}
+              className="flex items-center space-x-2 p-2 mt-8 rounded-md hover:bg-gray-100 transition-colors"
             >
-              <IoLogOutOutline size={22} />
-              <span className="text-">Salir</span>
-            </button>
+              <item.icon size={22} />
+              <span className="text-">{item.name}</span>
+            </Link>
+          ))}
+
+        {isAuthenticated && (
+          <button
+            onClick={() => {
+              signOut();
+            }}
+            className="flex w-full items-center space-x-2 p-2 mt-4 rounded-md hover:bg-gray-100 transition-colors"
+          >
+            <IoLogOutOutline size={22} />
+            <span className="text-">Salir</span>
+          </button>
         )}
 
         {!isAuthenticated && (
@@ -119,17 +137,19 @@ export const SideBard = () => {
 
         <hr className="my-4 border-gray-300" />
 
-        {sideBardAdminItems.map((item) => (
-          <Link
-            key={item.name}
-            href={item.path}
-            onClick={toggleSidebar}
-            className="flex items-center space-x-2 p-2 mt-4 rounded-md hover:bg-gray-100 transition-colors"
-          >
-            <item.icon size={22} />
-            <span className="text-">{item.name}</span>
-          </Link>
-        ))}
+        {isAuthenticated &&
+          session.user.role === "admin" &&
+          sideBardAdminItems.map((item) => (
+            <Link
+              key={item.name}
+              href={item.path}
+              onClick={toggleSidebar}
+              className="flex items-center space-x-2 p-2 mt-4 rounded-md hover:bg-gray-100 transition-colors"
+            >
+              <item.icon size={22} />
+              <span className="text-">{item.name}</span>
+            </Link>
+          ))}
       </aside>
     </>
   );
