@@ -39,11 +39,9 @@ export const SideBard = () => {
   const hasUpdatedSession = useRef(false);
 
   useEffect(() => {
-    console.log("Session status:", status);
     if (isSideBarOpen && !hasUpdatedSession.current) {
       update();
       hasUpdatedSession.current = true;
-      console.log("Session updated in sidebar");
     }
     if (!isSideBarOpen) {
       hasUpdatedSession.current = false;

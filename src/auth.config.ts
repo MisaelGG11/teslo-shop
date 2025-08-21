@@ -5,8 +5,7 @@ import { z } from "zod";
 import prisma from "./lib/prisma";
 import bcrypt from "bcryptjs";
 
-export const authConfig: NextAuthConfig = {
-  providers: [],
+const authConfig: NextAuthConfig = {
   secret: process.env.AUTH_SECRET,
   pages: {
     signIn: "/auth/login",
@@ -20,28 +19,12 @@ export const authConfig: NextAuthConfig = {
       return token;
     },
     session({ session, token }) {
-      session.user = token.data;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      session.user = token.data as any;
       return session;
-    }
-  }
-  // callbacks: {
-  //   authorized({ auth, request: { nextUrl } }) {
-  //     const isLoggedIn = !!auth?.user;
-  //     const isOnDashboard = nextUrl.pathname.startsWith("/");
-  //     if (isOnDashboard) {
-  //       if (isLoggedIn) return true;
-  //       return false; // Redirect unauthenticated users to login page
-  //     } else if (isLoggedIn) {
-  //       return Response.redirect(new URL("/", nextUrl));
-  //     }
-  //     return true;
-  //   },
-  // },
-};
-
-export const { auth, handlers, signIn, signOut } = NextAuth({
-  ...authConfig,
-  providers: [
+    },
+  },
+    providers: [
     Credentials({
       async authorize(credentials) {
         const parsedCredentials = z
@@ -70,4 +53,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       },
     }),
   ],
-});
+};
+
+export const { auth, handlers, signIn, signOut } = NextAuth(authConfig);
