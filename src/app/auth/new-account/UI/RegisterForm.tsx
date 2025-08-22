@@ -37,7 +37,7 @@ export const RegisterForm = () => {
 
     formData.append('email', email.toLowerCase());
     formData.append('password', password);
-    formData.append('redirectTo', '/');
+    
 
     await authenticate( undefined, formData );
   }
