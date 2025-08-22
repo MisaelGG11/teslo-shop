@@ -7,4 +7,6 @@ export * from './auth/register';
 export * from './products/products-pagination';
 export * from './products/product-by-slug';
 export * from './products/stock-by-slug';
- 
+
+// Address
+export * from './country/getCountries';
